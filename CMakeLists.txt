@@ -1,7 +1,7 @@
 #C
 cmake_minimum_required(VERSION 3.10.0)
 PROJECT(Rugal C)
-SET(CMAKE_C_FLAGS "-O0 -ggdb -w -std=c11")
+SET(CMAKE_C_FLAGS "-O0 -ggdb -w -std=c11 -lpthread")
 SET(CMAKE_C_COMPILER gcc)
 SET(BIN "BIN")
 
@@ -12,9 +12,8 @@ INCLUDE_DIRECTORIES(
 SET(SOURCE
     ${SOURCE}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/implement/test.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/implement/Thread.c
 )
 
 ADD_EXECUTABLE(${BIN} ${SOURCE})
 TARGET_LINK_LIBRARIES(${BIN})
-
