@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "Color.h"
 #include "log4c.h"
 #include "Thread.h"
 
@@ -36,11 +37,11 @@ void *consumer(void *input)
     LOG_INFO("Now we have %d", data->counter);
     if (data->counter)
     {
-      LOG_INFO("Consume");
+      LOG_INFO("%s%s%s", RED.fg, "Consume", RESET.fg);
       sleep(1);
       data->counter = 0;
       pthread_cond_signal(&data->condition);
-      LOG_INFO("Consumption done");
+      LOG_INFO("%s%s%s", RED.fg, "Consumption done", RESET.fg);
     }
     else
     {
@@ -69,11 +70,11 @@ void *producer(void *input)
     }
     else
     {
-      LOG_INFO("Produce");
+      LOG_INFO("%s%s%s", GREEN.fg, "Produce", RESET.fg);
       sleep(1);
       data->counter = 1;
       pthread_cond_signal(&data->condition);
-      LOG_INFO("Production done");
+      LOG_INFO("%s%s%s", GREEN.fg, "Production done", RESET.fg);
     }
     pthread_mutex_unlock(&data->mutex);
   }
