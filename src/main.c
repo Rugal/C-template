@@ -3,6 +3,7 @@
 #include <unistd.h>
 
 #include "log4c.h"
+// #include "progress.h"
 // #include "Thread.h"
 
 #define NUMBER 5
@@ -54,12 +55,14 @@ void runtime(void *input)
     //pick left
     sleep(1);
     LOG_INFO("[%d] tries to get left chopstick [%d]", parameter->index, LEFT(parameter->index));
-    while (!pick(LEFT(parameter->index), parameter));
+    while (!pick(LEFT(parameter->index), parameter))
+      ;
     LOG_INFO("[%d] gets left chopstick [%d]", parameter->index, LEFT(parameter->index));
     sleep(1);
     //pick right
     LOG_INFO("[%d] tries to get right chopstick [%d]", parameter->index, RIGHT(parameter->index));
-    while (!pick(RIGHT(parameter->index), parameter));
+    while (!pick(RIGHT(parameter->index), parameter))
+      ;
     LOG_INFO("[%d] gets right chopstick [%d]", parameter->index, RIGHT(parameter->index));
     sleep(1);
     LOG_INFO("[%d] is eating", parameter->index);
@@ -76,7 +79,8 @@ int main()
   pthread_mutex_t mutex[NUMBER];
   int resource[NUMBER];
   ThreadData data[NUMBER];
-  for(int i = 0; i < NUMBER; ++i) {
+  for (int i = 0; i < NUMBER; ++i)
+  {
     bzero(&data[i], sizeof(ThreadData));
     resource[i] = 0;
     pthread_mutex_init(&mutex[i], NULL);

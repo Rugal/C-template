@@ -1,12 +1,14 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-typedef struct {
-  const char* const fg;
-  const char* const bg;
+typedef struct
+{
+  const char *const fg;
+  const char *const bg;
 } Color;
 
 // http://ascii-table.com/ansi-escape-sequences.php
+// http://xahlee.info/comp/cars_trains_airplanes_boats.html
 
 const Color BLACK = {"\033[0;30m", "\033[0;40m"};
 const Color RED = {"\033[0;31m", "\033[0;41m"};
@@ -18,5 +20,7 @@ const Color CYAN = {"\033[0;36m", "\033[0;46m"};
 const Color WHITE = {"\033[0;37m", "\033[0;47m"};
 
 const Color RESET = {"\033[0m", "\033[0m"};
+
+const Color BOLD = {"\e[1m", "\e[0m"};
 
 #endif

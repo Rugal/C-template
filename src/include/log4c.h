@@ -17,11 +17,11 @@ enum Log4CLevel {
 };
 
 static const char* LOG_NAME[] = {"ALL",
-                                 "TRACE",
-                                 "DEBUG",
-                                 "INFO",
-                                 "WARN",
-                                 "ERROR",
+                                 "\033[0;37mTRACE\033[0m",
+                                 "\033[0;36mDEBUG\033[0m",
+                                 "\033[0;32mINFO\033[0m",
+                                 "\033[0;35mWARN\033[0m",
+                                 "\033[0;31mERROR\033[0m",
                                  "OFF"};
 
 extern int log4c_level;
