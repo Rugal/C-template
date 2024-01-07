@@ -1,19 +1,16 @@
 #C
-cmake_minimum_required(VERSION 3.10.0)
+cmake_minimum_required(VERSION 3.20.0)
 PROJECT(Rugal C)
-SET(CMAKE_C_FLAGS "-O0 -ggdb -w -std=c11 -lpthread")
-SET(CMAKE_C_COMPILER gcc)
-SET(BIN "BIN")
-
-INCLUDE_DIRECTORIES(
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-)
+SET(CMAKE_C_FLAGS "-O0 -ggdb -w -std=c17")
+SET(CMAKE_C_COMPILER cc)
+SET(BIN "a.out")
 
 SET(SOURCE
     ${SOURCE}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/implement/Thread.c
+    # ${CMAKE_CURRENT_SOURCE_DIR}/src/implement/Thread.c
 )
 
 ADD_EXECUTABLE(${BIN} ${SOURCE})
-TARGET_LINK_LIBRARIES(${BIN})
+TARGET_INCLUDE_DIRECTORIES(${BIN} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
+# TARGET_LINK_LIBRARIES(${BIN} public pthread)

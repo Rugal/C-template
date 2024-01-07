@@ -1,31 +1,23 @@
-CC=gcc -std=c11 -g3 -w -o $@
-COMPILE=-c $<
-VPATH=include
+CC=cc -std=c17 -g3 -Wall -o $@		#make some optimization here
+HEADER=include
+COMPILE=-I ${HEADER} -c $<      #compile most left .c file into intermediate
+INTERMEDIATE=implement/TCPSocket.o implement/Configuration.o implement/ArrayList.o implement/String.o
 SERVER=server
 CLIENT=client
 
-#Build all
 all: ${SERVER} ${CLIENT}
 
-#Build server
-${SERVER}: server.o TCPSocket.o Configuration.o ArrayList.o String.o
+${SERVER}: ${INTERMEDIATE} ${SERVER}.o
 	${CC} $^
-server.o: server.c
-	${CC} -I ${VPATH} ${COMPILE}
-TCPSocket.o: implement/TCPSocket.c
-	${CC} -I ${VPATH} ${COMPILE}
-Configuration.o: implement/Configuration.c
-	${CC} -I ${VPATH} ${COMPILE}
-String.o: implement/String.c
-	${CC} -I ${VPATH} ${COMPILE}
-ArrayList.o: implement/ArrayList.c
-	${CC} -I ${VPATH} ${COMPILE}
+${CLIENT}: ${INTERMEDIATE} ${CLIENT}.o
+	${CC} $^
+%.o: %.c
+	${CC} ${COMPILE}
 
-#Build client
-${CLIENT}: client.o TCPSocket.o Configuration.o String.o
-	${CC} $^
-client.o: client.c
-	${CC} -I ${VPATH} ${COMPILE}
+# test: ${SERVER} ${CLIENT}
+# 	valgrind --leak-check=full --show-leak-kinds=all ./${EXECUTABLE}
 
 clean:
-	rm -rf *.so *.o ${SERVER} ${CLIENT}
+	rm -rf *.so
+	rm -rf *.o
+	rm -rf ${SERVER} ${CLIENT}
