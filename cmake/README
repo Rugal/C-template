@@ -2,3 +2,14 @@
 
 1. pthread
 2. mutex
+
+### clang LSP configuration
+
+```shell
+rm compile_commands.json
+mkdir build
+cd build
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..
+cd -
+ln -s build/compile_commands.json .
+```

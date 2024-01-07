@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.20.0)
 PROJECT(Rugal C)
 SET(CMAKE_C_FLAGS "-O0 -ggdb -w -std=c17")
-SET(CMAKE_C_COMPILER cc)
+SET(CMAKE_C_COMPILER gcc)
 SET(BIN "a.out")
 
 SET(SOURCE

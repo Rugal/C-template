@@ -5,3 +5,5 @@ input
 output
 build
 .vscode
+compile_commands.json
+.cache
