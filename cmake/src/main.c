@@ -5,7 +5,6 @@
 #include <unistd.h>
 // #include <unistd.h>
 
-// #include "progress.h"
 #include "chopstick.h"
 #include "log4c.h"
 #include "person.h"
@@ -16,34 +15,7 @@
 #define RIGHT(i) LEFT(i + 1)
 
 //Set overall log level
-int log4c_level = LOG4C_ALL;
-
-bool pick(const int i, Chopstick *c) {
-  assert(NULL != c);
-  LOG_DEBUG("[%d] Try to get mutex [%d]", i, c->index);
-  pthread_mutex_lock(c->mutex);
-  if (c->usedBy != -1) {
-    // this chopstick is taken
-    LOG_DEBUG("Chopstick [%d] is taken by [%d]", c->index, c->usedBy);
-    pthread_mutex_unlock(c->mutex);
-    return false;
-  }
-  // this chopstick is available
-  LOG_DEBUG("Chopstick [%d] is available", c->index);
-  c->usedBy = i;
-  LOG_DEBUG("[%d] take chopstick [%d]", c->usedBy, c->index);
-  pthread_mutex_unlock(c->mutex);
-  return true;
-}
-
-void put(Chopstick* c) {
-  assert(NULL != c);
-  LOG_DEBUG("[%d] try to put chopstick [%d] back", c->usedBy, c->index);
-  pthread_mutex_lock(c->mutex);
-  LOG_DEBUG("[%d] put chopstick [%d] back", c->usedBy, c->index);
-  c->usedBy = -1;
-  pthread_mutex_unlock(c->mutex);
-}
+int log4c_level = LOG4C_INFO;
 
 void* runtime(void* input) {
   assert(NULL != input);
@@ -59,8 +31,12 @@ void* runtime(void* input) {
       put(p->left);
       continue;
     }
-    LOG_INFO("Philosopher [%d] is eating", p->index);
-    sleep(rand() % 5);
+    LOG_INFO("Philosopher [%d] start eating", p->index);
+    int t = rand() % 5;
+    while(t-- > 0) {
+      LOG_INFO("Philosopher [%d] is still eating", p->index);
+      sleep(1);
+    }
     LOG_INFO("Philosopher [%d] eat completed", p->index);
     put(p->left);
     put(p->right);
@@ -88,6 +64,7 @@ int main() {
 
   for (int i = 0; i < NUMBER; ++i) {
     pthread_join(threads[i], NULL);
+    LOG_INFO("Thread [%d] stop", ps[i]->index);
     deleteChopstick(cs[i]);
     deletePerson(ps[i]);
   }

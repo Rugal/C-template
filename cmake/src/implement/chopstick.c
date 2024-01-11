@@ -25,3 +25,30 @@ void deleteChopstick(Chopstick* data) {
   pthread_mutex_destroy(data->mutex);
   free(data);
 }
+
+bool pick(const int i, Chopstick *c) {
+  assert(NULL != c);
+  LOG_DEBUG("[%d] Try to get mutex [%d]", i, c->index);
+  pthread_mutex_lock(c->mutex);
+  if (c->usedBy != -1) {
+    // this chopstick is taken
+    LOG_DEBUG("Chopstick [%d] is taken by [%d]", c->index, c->usedBy);
+    pthread_mutex_unlock(c->mutex);
+    return false;
+  }
+  // this chopstick is available
+  LOG_DEBUG("Chopstick [%d] is available", c->index);
+  c->usedBy = i;
+  LOG_DEBUG("[%d] take chopstick [%d]", c->usedBy, c->index);
+  pthread_mutex_unlock(c->mutex);
+  return true;
+}
+
+void put(Chopstick* c) {
+  assert(NULL != c);
+  LOG_DEBUG("[%d] try to put chopstick [%d] back", c->usedBy, c->index);
+  pthread_mutex_lock(c->mutex);
+  LOG_DEBUG("[%d] put chopstick [%d] back", c->usedBy, c->index);
+  c->usedBy = -1;
+  pthread_mutex_unlock(c->mutex);
+}

@@ -15,4 +15,8 @@ Chopstick* createChopstick(int index);
 
 void deleteChopstick(Chopstick* data);
 
+bool pick(const int i, Chopstick *c);
+
+void put(Chopstick* c);
+
 #endif
